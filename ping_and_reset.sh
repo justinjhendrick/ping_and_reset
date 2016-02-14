@@ -27,7 +27,7 @@ do
         if [ $((packet_loss_percent)) -ge "$MAX_ACCEPTABLE_LOSS" ]
         then
           # If we disconnect. Reset wifi.
-          echo 'resetting!';
+          notify-send --urgency=low 'pings failed. resetting wifi';
           nmcli nm wifi off;
           sleep 1;
           nmcli nm wifi on;
