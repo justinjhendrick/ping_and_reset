@@ -7,7 +7,7 @@
 # the wifi connection.
 # URL's default value is google.com
 
-MAX_ACCEPTABLE_LOSS=30
+MAX_ACCEPTABLE_LOSS=50 #percent
 
 if [ -z ${1+x} ]; then
   URL=google.com;
