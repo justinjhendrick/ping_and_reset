@@ -9,6 +9,17 @@
 
 MAX_ACCEPTABLE_LOSS=50 #percent
 
+function reset {
+  # If we disconnect. Reset wifi.
+  MSG='pings failed. resetting wifi';
+  notify-send --urgency=low "$MSG"
+  echo $MSG
+  nmcli nm wifi off;
+  sleep 1;
+  nmcli nm wifi on;
+  sleep 10;
+}
+
 if [ -z ${1+x} ]; then
   URL=google.com;
 else
@@ -26,13 +37,16 @@ do
         packet_loss_percent="${BASH_REMATCH[1]}";
         if [ $((packet_loss_percent)) -ge "$MAX_ACCEPTABLE_LOSS" ]
         then
-          # If we disconnect. Reset wifi.
-          notify-send --urgency=low 'pings failed. resetting wifi';
-          nmcli nm wifi off;
-          sleep 1;
-          nmcli nm wifi on;
-          sleep 5;
+          reset;
         fi
     done
+
+  # check return value of ping
+  if [ "${PIPESTATUS[0]}" -gt 0 ]
+  then
+    reset;
+  fi
+
+  sleep 1;
 done
 
