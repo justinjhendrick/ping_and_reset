@@ -13,11 +13,11 @@ function reset {
   # If we disconnect. Reset wifi.
   MSG='pings failed. resetting wifi';
   notify-send --urgency=low "$MSG"
-  echo $MSG
+  echo `date`: $MSG
   nmcli nm wifi off;
   sleep 1;
   nmcli nm wifi on;
-  sleep 10;
+  sleep 15;
 }
 
 if [ -z ${1+x} ]; then
